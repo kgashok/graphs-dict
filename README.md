@@ -2,6 +2,12 @@
 
 [![Run on Repl.it](https://repl.it/badge/github/kgashok/graphs-dict)](https://repl.it/github/kgashok/graphs-dict)
 
+# Running all the tests 
+
+```bash
+python3 -m unittest discover -s graphtheory -p 'test_*.py'
+```
+
 # graphtheory package
 
 Python implementation of graph data structures and algorithms is presented. 
