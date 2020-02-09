@@ -1,6 +1,4 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ufkapano/graphs-dict) 
-
-[![Run on Repl.it](https://repl.it/badge/github/kgashok/graphs-dict)](https://repl.it/github/kgashok/graphs-dict)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/ufkapano/graphs-dict) [![Run on Repl.it](https://repl.it/badge/github/kgashok/graphs-dict)](https://repl.it/github/kgashok/graphs-dict) [![Join the chat at https://gitter.im/kgashok/graphs-dict](https://badges.gitter.im/kgashok/graphs-dict.svg)](https://gitter.im/kgashok/graphs-dict?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Running all the tests 
 
