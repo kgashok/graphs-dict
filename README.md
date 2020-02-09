@@ -1,10 +1,17 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/kgashok/graphs-dict) [![Run on Repl.it](https://repl.it/badge/github/kgashok/graphs-dict)](https://repl.it/github/kgashok/graphs-dict) [![Join the chat at https://gitter.im/kgashok/graphs-dict](https://badges.gitter.im/kgashok/graphs-dict.svg)](https://gitter.im/kgashok/graphs-dict?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/kgashok/graphs-dict](https://badges.gitter.im/kgashok/graphs-dict.svg)](https://gitter.im/kgashok/graphs-dict?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/kgashok/graphs-dict) [![Run on Repl.it](https://repl.it/badge/github/kgashok/graphs-dict)](https://repl.it/github/kgashok/graphs-dict) 
 # Running all the tests 
 
 ```bash
 python3 -m unittest discover -s graphtheory -p 'test_*.py'
 ```
+or 
+
+```
+python3 alltests.py 
+```
+
 
 # graphtheory package
 
