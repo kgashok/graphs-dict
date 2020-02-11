@@ -70,7 +70,6 @@ class DijkstraMatrix:
         """
         self.source = source
         self.distance[source] = 0
-<<<<<<< HEAD
         for _ in xrange(self.graph.v()):   # |V| times
             # Find min node, O(V) time.
             # Find the node with least distance, aka "cost"
@@ -82,17 +81,6 @@ class DijkstraMatrix:
                 # that haven't been updated yet
                 if self._in_queue[edge.target]:
                     self._relax(edge)
-=======
-        for node in self.graph.iternodes():
-            self._pq.put((self.distance[node], node))
-        while not self._pq.empty():
-            _, node = self._pq.get()
-            if self._in_queue[node]:
-                self._in_queue[node] = False
-                for edge in self.graph.iteroutedges(node):
-                    if self._in_queue[edge.target] and self._relax(edge):
-                        self._pq.put((self.distance[edge.target], edge.target))
->>>>>>> b5d12f69dfe45e84c0265f59123cdac5e97ff16a
 
     def _relax(self, edge: Edge) -> bool: 
         """Edge relaxation."""
@@ -165,7 +153,6 @@ class Dijkstra(DijkstraMatrix):
         """
         self.source = source
         self.distance[source] = 0
-<<<<<<< HEAD
         for node in self.graph.iternodes():
             self._pq.put((self.distance[node], node))
         while not self._pq.empty():
@@ -179,25 +166,6 @@ class Dijkstra(DijkstraMatrix):
                     if self._in_queue[edge.target] and self._relax(edge):
                         # if edge was 'relax'ed, place it back in the queue
                         self._pq.put((self.distance[edge.target], edge.target))
-=======
-        for _ in xrange(self.graph.v()):   # |V| times
-            # Find min node, O(V) time.
-            node = min((node for node in self.graph.iternodes() 
-                if self._in_queue[node]), key=self.distance.get)
-            self._in_queue[node] = False
-            for edge in self.graph.iteroutedges(node):   # O(V) time
-                if self._in_queue[edge.target]:
-                    self._relax(edge)
-
-    def _relax(self, edge):
-        """Edge relaxation."""
-        alt = self.distance[edge.source] + edge.weight
-        if self.distance[edge.target] > alt:
-            self.distance[edge.target] = alt
-            self.parent[edge.target] = edge.source
-            return True
-        return False
->>>>>>> b5d12f69dfe45e84c0265f59123cdac5e97ff16a
 
 
 # EOF
