@@ -77,7 +77,7 @@ class DijkstraMatrix:
                 if self._in_queue[node]), key=self.distance.get)
             self._in_queue[leastnode] = False
             # Update (aka relax) those neigbours (via the edges) 
-            for edge in self.graph.iteroutedges(node):   # O(V) time
+            for edge in self.graph.iteroutedges(leastnode):   # O(V) time
                 # that haven't been updated yet
                 if self._in_queue[edge.target]:
                     self._relax(edge)
@@ -86,7 +86,7 @@ class DijkstraMatrix:
         """Edge relaxation."""
         alt = self.distance[edge.source] + edge.weight
         if self.distance[edge.target] > alt:
-            # update the distance and parent
+            # update the distance and parent accordingly
             self.distance[edge.target] = alt
             self.parent[edge.target] = edge.source
             return True
@@ -141,7 +141,8 @@ class Dijkstra(DijkstraMatrix):
     
     def __init__(self, graph):
         super().__init__(graph)
-        self._pq = PriorityQueue()
+        # to prioritize nodes based on least distance
+        self._pq = PriorityQueue() 
 
     def run(self, source):
         """Finding shortest paths from the source.
@@ -155,14 +156,16 @@ class Dijkstra(DijkstraMatrix):
         for node in self.graph.iternodes():
             self._pq.put((self.distance[node], node))
         while not self._pq.empty():
+            # get the node with the least distance (aka cost)
             _, node = self._pq.get()
             if self._in_queue[node]:
                 self._in_queue[node] = False
-            else:
-                continue
-            for edge in self.graph.iteroutedges(node):
-                if self._in_queue[edge.target] and self._relax(edge):
-                    self._pq.put((self.distance[edge.target], edge.target))
+                # update those neighbours (via the edges)
+                for edge in self.graph.iteroutedges(node):
+                    # ...that haven't been updated yet
+                    if self._in_queue[edge.target] and self._relax(edge):
+                        # if edge was 'relax'ed, place it back in the queue
+                        self._pq.put((self.distance[edge.target], edge.target))
 
 
 # EOF
