@@ -74,7 +74,7 @@ class DijkstraMatrix:
             # Find min node, O(V) time.
             # Find the node with least distance, aka "cost"
             leastnode = min((node for node in self.graph.iternodes() 
-                if self._in_queue[node]), key=self.distance.get)
+                if self._in_queue[node]), key=self.distance.get, default=None)
             self._in_queue[leastnode] = False
             # Update (aka relax) those neigbours (via the edges) 
             for edge in self.graph.iteroutedges(leastnode):   # O(V) time
