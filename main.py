@@ -15,12 +15,11 @@ for face in G.iterfaces():
     print ( face )
 
 
-'''
+
 from alltests import run_all_tests
 run_all_tests()
+
 '''
-
-
 from graphtheory.structures.graphs import Graph
 from graphtheory.structures.factory import GraphFactory
 
@@ -28,13 +27,15 @@ gf = GraphFactory(Graph)
 G = gf.make_random(n=10, directed=True)
 G.show()
 from pprint import pprint 
-pprint(G)
+pprint(G)  # adjacency matrix equivalent 
 
 from graphtheory.shortestpaths.dijkstra import Dijkstra
-algo = Dijkstra(G)
+algo = Dijkstra(G)  
 source = 5 
 algo.run(source)
 
 # get results 
-target = 8
+target = 8  # find paths to this target
+print(algo.parent)  # shortest path as a tree
 print(algo.path(target), algo.distance[target])
+'''
