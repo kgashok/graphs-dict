@@ -157,11 +157,11 @@ class Dijkstra(DijkstraMatrix):
             self._pq.put((self.distance[node], node))
         while not self._pq.empty():
             # get the node with the least distance (aka cost)
-            _, node = self._pq.get()
-            if self._in_queue[node]:
-                self._in_queue[node] = False
+            _, leastnode = self._pq.get()
+            if self._in_queue[leastnode]:
+                self._in_queue[leastnode] = False
                 # update those neighbours (via the edges)
-                for edge in self.graph.iteroutedges(node):
+                for edge in self.graph.iteroutedges(leastnode):
                     # ...that haven't been updated yet
                     if self._in_queue[edge.target] and self._relax(edge):
                         # if edge was 'relax'ed, place it back in the queue
