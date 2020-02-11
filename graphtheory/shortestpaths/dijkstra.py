@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+#primarily for annotation purposes
+from graphtheory.structures.edges import Edge
+
 try:
     from Queue import PriorityQueue
 except ImportError:   # Python 3
@@ -69,24 +72,29 @@ class DijkstraMatrix:
         self.distance[source] = 0
         for _ in xrange(self.graph.v()):   # |V| times
             # Find min node, O(V) time.
-            node = min((node for node in self.graph.iternodes() 
+            # Find the node with least distance, aka "cost"
+            leastnode = min((node for node in self.graph.iternodes() 
                 if self._in_queue[node]), key=self.distance.get)
-            self._in_queue[node] = False
+            self._in_queue[leastnode] = False
+            # Update (aka relax) those neigbours (via the edges) 
             for edge in self.graph.iteroutedges(node):   # O(V) time
+                # that haven't been updated yet
                 if self._in_queue[edge.target]:
                     self._relax(edge)
 
-    def _relax(self, edge):
+    def _relax(self, edge: Edge) -> bool: 
         """Edge relaxation."""
         alt = self.distance[edge.source] + edge.weight
         if self.distance[edge.target] > alt:
+            # update the distance and parent
             self.distance[edge.target] = alt
             self.parent[edge.target] = edge.source
             return True
         return False
 
-    def path(self, target):
-        """Construct a path from source to target."""
+    def path(self, target) -> list:
+        """Construct a path from source to target, recursively."""
+        """returns a list containing the nodes"""
         if self.source == target:
             return [self.source]
         elif self.parent[target] is None:
