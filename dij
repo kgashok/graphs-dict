@@ -1,0 +1,1 @@
+python3 -m unittest graphtheory/shortestpaths/tests/test_dij*
