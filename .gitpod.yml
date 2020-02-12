@@ -1,4 +1,8 @@
-tasks:
-  - init: echo "Replace me with a build script for the project."
-    command: echo "Replace me with omething that should run on every start, or just
-      remove me entirely."
+#tasks:
+#  - init: echo "Replace me with a build script for the project."
+#    command: echo "Replace me with omething that should run on every start, or just
+#      remove me entirely."
+
+#vscode:
+#  extensions:
+#    - almenon.arepl@1.0.20:Uu7lIOwyLgmNWpTwCl/iqQ==
