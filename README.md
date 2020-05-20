@@ -18,7 +18,8 @@ The graphtheory package is written with Python 2.7 and Python 3.2.
 
 ## Problems and algorithms
 
-* Connectivity: cut nodes, cut edges (bridges)
+* Connectivity: connected components, strongly connected components,
+cut nodes, cut edges (bridges)
 * Cycle detection, topological sorting (DFS, Kahn), 
 transitive closure (matrix multiplication, Floyd-Warshall, BFS, DFS)
 * Bipartiteness: bipartite graphs detection (BFS, DFS), 
@@ -36,7 +37,7 @@ NTL (using Delta or Delta+1 colors),
 complete graphs (exact),
 bipartite graphs (exact)
 * Independent sets: backtracking (exact), US, RS, LL, SF
-* Dominating sets: in progress ...
+* Dominating sets: backtracking (exact), US, RS, LF
 * Minimum spanning trees (weighted undirected graphs): 
 Boruvka, Prim, Kruskal
 * Single-source shortest paths (weighted directed graphs without negative cycles): 
@@ -55,6 +56,10 @@ chordal completion (PEO), vertex coloring
 * Halin graphs (exact algorithms): recognition, generators, vertex coloring,
 chordal completion (PEO), tree decomposition, plotting
 * Chordal graphs: in progress ...
+
+## Installation
+
+See doc/quickstart.txt
 
 ## References
 
