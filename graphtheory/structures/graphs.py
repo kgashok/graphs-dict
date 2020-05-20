@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+try:
+    from Queue import Queue
+except ImportError:   # Python 3
+    from queue import Queue
+
 import random
 from graphtheory.structures.edges import Edge
 
@@ -32,6 +37,8 @@ class Graph(dict):
         # Structures defining a topological graph.
         self.edge_next = None
         self.edge_prev = None
+        self.face2edge = None
+        self.edge2face = None
 
     def is_directed(self):
         """Test if the graph is directed."""
@@ -50,7 +57,7 @@ class Graph(dict):
         """Return the number of faces (for planar graphs)."""
         if not self.edge_next or not self.edge_prev:
             raise ValueError("run planarity test first")
-        return self.e() + 2 - self.n   # Euler's formula
+        return self.e() + 2 - self.v()   # Euler's formula
 
     def iterfaces(self):
         """Generate all faces on demand (for planar graphs)."""
@@ -68,6 +75,17 @@ class Graph(dict):
                 face.append(edge)
                 edge = self.edge_next[~edge]
             yield face
+
+    def iterface(self, edge):
+        """Generate edges from the same face on demand (for planar graphs)."""
+        if not self.edge_next or not self.edge_prev:
+            raise ValueError("planar embedding not calculated")
+        edge1 = edge
+        while True:
+            yield edge1
+            edge1 = self.edge_next[~edge1]
+            if edge1 == edge:
+                break
 
     def add_node(self, node):
         """Add a node to the graph."""
@@ -155,6 +173,39 @@ class Graph(dict):
                 if self.is_directed() or source < target:
                     yield self[source][target]
 
+    def iteredges_connected(self, start_edge):
+        """Generate all connected edges from the graph on demand.
+        
+        Used for ConnectedSequentialEdgeColoring.
+        """
+        if self.is_directed():
+            raise ValueError("the graph is directed")
+        if not self.has_edge(start_edge):
+            raise ValueError("edge not in the graph")
+        if start_edge.source > start_edge.target:
+            start_edge = ~start_edge
+        # Modified BFS starts from here, before while.
+        used = set()   # for yielded edges
+        parent = dict()   # for BFS tree
+        parent[start_edge.source] = None
+        parent[start_edge.target] = start_edge.source
+        Q = Queue()
+        Q.put(start_edge.source)
+        Q.put(start_edge.target)
+        used.add(start_edge)
+        yield start_edge
+        while not Q.empty():   # BFS continued
+            source = Q.get()
+            for edge in self.iteroutedges(source):
+                if edge.target not in parent:
+                    parent[edge.target] = source   # before Q.put
+                    Q.put(edge.target)
+                if edge.source > edge.target:
+                    edge = ~edge
+                if edge not in used:   # start_edge will be detected
+                    used.add(edge)
+                    yield edge
+
     def show(self):
         """The graph presentation."""
         L = []
@@ -170,14 +221,23 @@ class Graph(dict):
 
     def copy(self):
         """Return the graph copy."""
-        new_graph = Graph(n=self.n, directed=self.directed)
+        new_graph = self.__class__(n=self.n, directed=self.directed)
         for node in self.iternodes():
             new_graph[node] = dict(self[node])
+        # Structures defining a topological graph.
+        if self.edge_next:
+            new_graph.edge_next = dict(self.edge_next)
+        if self.edge_prev:
+            new_graph.edge_prev = dict(self.edge_prev)
+        if self.face2edge:
+            new_graph.face2edge = dict(self.face2edge)
+        if self.edge2face:
+            new_graph.edge2face = dict(self.edge2face)
         return new_graph
 
     def transpose(self):
         """Return the transpose of the graph."""
-        new_graph = Graph(n=self.n, directed=self.directed)
+        new_graph = self.__class__(n=self.n, directed=self.directed)
         for node in self.iternodes():
             new_graph.add_node(node)
         for edge in self.iteredges():
@@ -186,7 +246,7 @@ class Graph(dict):
 
     def complement(self):
         """Return the complement of the graph."""
-        new_graph = Graph(n=self.n, directed=self.directed)
+        new_graph = self.__class__(n=self.n, directed=self.directed)
         for node in self.iternodes():
             new_graph.add_node(node)
         for source in self.iternodes():
@@ -202,7 +262,7 @@ class Graph(dict):
         node_set = set(nodes)
         if any(not self.has_node(node) for node in node_set):
             raise ValueError("nodes not from the graph")
-        new_graph = Graph(n=len(node_set), directed=self.directed)
+        new_graph = self.__class__(n=len(node_set), directed=self.directed)
         for node in node_set:
             new_graph.add_node(node)
         for edge in self.iteredges():
