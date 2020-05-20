@@ -153,8 +153,9 @@ class Graph(dict):
 
     def iteroutedges(self, source):
         """Generate the outedges from the graph on demand."""
-        for target in self[source]:
-            yield self[source][target]
+        if source is not None: 
+            for target in self[source]:
+                yield self[source][target]
 
     def iterinedges(self, source):
         """Generate the inedges from the graph on demand."""

@@ -1,0 +1,2 @@
+rm *.lgl *.ncol undirected*.txt 
+python3 -m unittest graphtheory/shortestpaths/tests/test_dij*
